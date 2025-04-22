@@ -1,24 +1,90 @@
-import 'package:flutter/material.dart';
-import 'package:proj_menu_card_team_b/screens/scan_screen.dart';
+// import 'package:flutter/material.dart';
+// import 'package:proj_menu_card_team_b/screens/scan_screen.dart';
 
-void main() {
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Flutter Demo',
+//       theme: ThemeData(       
+//       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+//       ),
+//       home: Scanscreen()
+//     );
+//   }
+// }
+
+import 'package:flutter/material.dart';
+import 'package:proj_menu_card_team_b/component/completed_order_dialog.dart';
+import 'package:proj_menu_card_team_b/screens/onboarding_screens.dart';
+import 'package:proj_menu_card_team_b/screens/scan_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+bool? isFirstTimeUsingApp;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  isFirstTimeUsingApp = preferences.getBool("isFirstTimeUsingApp") ?? true;
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(       
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      // title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 247, 107, 21),
+        ),
+        useMaterial3: true,
       ),
-      home: Scanscreen()
+      home: Home(),
     );
   }
 }
 
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  void showCompletedOrderDialog(context) {
+    ///function to show completed order Dialog
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return CompletedOrderDialog();
+        });
+  }
+
+  //Simple flutter screen to show button to display completed order dialog ad wait for order
+  @override
+  Widget build(BuildContext context) {
+    return isFirstTimeUsingApp!
+        ? OnboardingScreen()
+        : Scanscreen();
+  }
+}
+//replace scaffold with the bar code scanner
+
+
+// Scaffold(
+//       body: Center(
+//         child: ElevatedButton(
+//             onPressed: () {
+//               showCompletedOrderDialog(context);
+//             },
+//             child: Text("Show completed order dialog")),
+//       ),
+//     );

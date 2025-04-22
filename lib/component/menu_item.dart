@@ -4,12 +4,16 @@ class MenuItem extends StatelessWidget {
   final String title;
   final String description;
   final String price;
+  final VoidCallback onTap;
+  final String imagePath;
 
   const MenuItem({
     super.key,
     required this.title,
     required this.description,
     required this.price,
+    required this.onTap,
+    required this.imagePath,
   });
 
   @override
@@ -35,19 +39,20 @@ class MenuItem extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff333333)
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 14, color: Color(0xff606060)),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   price,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    color: Color(0xff606060),
                   ),
                 ),
               ],
@@ -77,7 +82,7 @@ class MenuItem extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.asset('assets/food.png', fit: BoxFit.cover),
+                      child: Image.asset(imagePath,fit: BoxFit.cover,),
                     ),
                   ),
                 ),
@@ -85,7 +90,7 @@ class MenuItem extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: onTap,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
